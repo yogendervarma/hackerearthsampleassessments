@@ -1,0 +1,61 @@
+/*Consider the following function:
+
+ F(X)  = Number of divisors of integer 
+
+You are given an array that consists of N integers. You are also provided M queries. There can be only one type of query, query(l,r).
+You are required to determine the product of all the numbers in the range from l to r . The output can contain the values of l and r.
+Your task is to print result of function f(x) mod (10^9)+7.
+
+input format: first line 2 integers, n (number of array elements), m (number of queries)
+next line array input (n elements)
+next m lines, l and r values.
+
+*/
+#include <iostream>
+using namespace std;
+
+int getdivisors(int n)
+{
+	if(n==1)
+	return 1;
+	int count = 2;
+	for(int x=2;x*x<=n;x++)
+	{
+		if(n%x==0)
+		{
+			if(n/x!=x)
+			count+=2;
+			else
+			count++;
+		}
+	}
+	return count;
+}
+
+int main() {
+	int num;
+	int que;
+	cin >> num;    //Reading input from STDIN
+	cin >> que;
+	int arr[num];
+	long long int dp[num];
+	cin >> arr[0];
+	dp[0]=arr[0];
+	for(int i=1;i<num;i++)
+	{
+		cin >> arr[i];
+		dp[i]=(dp[i-1]*arr[i])%1000000007;
+	}
+	while(que-->0)
+	{
+		int l;
+		int r;
+		cin >> l;
+		cin >> r;
+		cout << getdivisors((dp[r-1])/(dp[l-1])%1000000007) << endl;
+	}
+}
+
+
+
+// 1 2 6 24 120 720 5040
